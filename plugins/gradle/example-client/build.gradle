@@ -44,7 +44,8 @@ dependencies {
  */
 compileJava.dependsOn "graphqlCodegenProductService"
 sourceSets.main.java.srcDir "$buildDir/generated-client"
-task graphqlCodegenProductService(type: GraphQLCodegenGradleTask) {
+tasks.register('graphqlCodegenProductService', GraphQLCodegenGradleTask) {
+    defaultResourcesDir = sourceSets.main.resources.srcDirs.iterator().next().toPath()
     graphqlSchemas.includePattern = "schema-product-service\\.graphqls"
     outputDir = new File("$buildDir/generated-client")
     modelPackageName = "io.github.kobylynskyi.product.graphql.model"
@@ -63,7 +64,8 @@ task graphqlCodegenProductService(type: GraphQLCodegenGradleTask) {
  */
 compileJava.dependsOn "graphqlCodegenOrderService"
 sourceSets.main.java.srcDir "$buildDir/generated-server"
-task graphqlCodegenOrderService(type: GraphQLCodegenGradleTask) {
+tasks.register('graphqlCodegenOrderService', GraphQLCodegenGradleTask) {
+    defaultResourcesDir = sourceSets.main.resources.srcDirs.iterator().next().toPath()
     graphqlSchemas.includePattern = "schema\\.graphqls"
     outputDir = new File("$buildDir/generated-server")
     apiPackageName = "io.github.kobylynskyi.order.graphql.api"
@@ -79,7 +81,8 @@ task graphqlCodegenOrderService(type: GraphQLCodegenGradleTask) {
  */
 compileJava.dependsOn "graphqlCodegenStarwarsService"
 sourceSets.main.java.srcDir "$buildDir/generated-client-starwars"
-task graphqlCodegenStarwarsService(type: GraphQLCodegenGradleTask) {
+tasks.register('graphqlCodegenStarwarsService', GraphQLCodegenGradleTask) {
+    defaultResourcesDir = sourceSets.main.resources.srcDirs.iterator().next().toPath()
     graphqlSchemas.includePattern = "schema-starwars-service\\.graphqls"
     outputDir = new File("$buildDir/generated-client-starwars")
     packageName = "io.github.kobylynskyi.starwars.graphql"
@@ -98,7 +101,6 @@ task graphqlCodegenStarwarsService(type: GraphQLCodegenGradleTask) {
 
 
 repositories {
-    jcenter()
     mavenCentral()
     mavenLocal()
 }
