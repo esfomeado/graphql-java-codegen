@@ -1070,8 +1070,6 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         this.skip = skip;
     }
 
-    @Input
-    @Optional
     public java.util.Optional<Path> getDefaultResourcesDir() {
         return defaultResourcesDir;
     }
