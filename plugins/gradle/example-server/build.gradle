@@ -56,7 +56,6 @@ graphqlCodegen {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
     mavenLocal()
 }
