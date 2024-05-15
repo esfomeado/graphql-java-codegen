@@ -129,6 +129,8 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     private Boolean skip = false;
     private Boolean skipSchemaSizeLimit = MappingConfigConstants.DEFAULT_SKIP_SCHEMA_SIZE_LIMIT;
 
+    private java.util.Optional<Path> defaultResourcesDir;
+
     public GraphQLCodegenGradleTask() {
         setGroup("codegen");
         setDescription("Generates Java POJOs and interfaces based on GraphQL schemas");
@@ -290,23 +292,10 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     private Path getSchemasRootDir() {
         String rootDir = graphqlSchemas.getRootDir();
         if (rootDir == null) {
-            return findDefaultResourcesDir().orElseThrow(() -> new IllegalStateException(
+            return defaultResourcesDir.orElseThrow(() -> new IllegalStateException(
                     "Default resource folder not found, please provide graphqlSchemas.rootDir"));
         }
         return Paths.get(rootDir);
-    }
-
-    private java.util.Optional<Path> findDefaultResourcesDir() {
-        return getProject().getExtensions()
-                .getByType(JavaPluginExtension.class)
-                .getSourceSets()
-                .getByName(SourceSet.MAIN_SOURCE_SET_NAME)
-                .getResources()
-                .getSourceDirectories()
-                .getFiles()
-                .stream()
-                .findFirst()
-                .map(File::toPath);
     }
 
     private java.util.Optional<MappingConfigSupplier> buildJsonSupplier() {
@@ -1081,4 +1070,13 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         this.skip = skip;
     }
 
+    @Input
+    @Optional
+    public java.util.Optional<Path> getDefaultResourcesDir() {
+        return defaultResourcesDir;
+    }
+
+    public void setDefaultResourcesDir(java.util.Optional<Path> defaultResourcesDir) {
+        this.defaultResourcesDir = defaultResourcesDir;
+    }
 }
