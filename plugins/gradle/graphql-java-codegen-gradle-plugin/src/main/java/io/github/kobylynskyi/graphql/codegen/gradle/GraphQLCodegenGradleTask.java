@@ -1069,7 +1069,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         this.skip = skip;
     }
 
-    @InputFile
+    @InputDirectory
     @Optional
     public Path getDefaultResourcesDir() {
         return defaultResourcesDir;
