@@ -47,7 +47,8 @@ dependencies {
  */
 compileKotlin.dependsOn "graphqlCodegenKotlinService"
 sourceSets.main.java.srcDir "$buildDir/generated-server"
-task graphqlCodegenKotlinService(type: GraphQLCodegenGradleTask) {
+tasks.register('graphqlCodegenKotlinService', GraphQLCodegenGradleTask) {
+    defaultResourcesDir = sourceSets.main.resources.srcDirs.iterator().next().toPath()
     graphqlSchemas.includePattern = "schema\\.graphqls"
     outputDir = new File("$buildDir/generated-server")
     generateClient = true
