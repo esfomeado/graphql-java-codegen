@@ -129,7 +129,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     private Boolean skip = false;
     private Boolean skipSchemaSizeLimit = MappingConfigConstants.DEFAULT_SKIP_SCHEMA_SIZE_LIMIT;
 
-    private java.util.Optional<Path> defaultResourcesDir;
+    private Path defaultResourcesDir;
 
     public GraphQLCodegenGradleTask() {
         setGroup("codegen");
@@ -292,8 +292,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     private Path getSchemasRootDir() {
         String rootDir = graphqlSchemas.getRootDir();
         if (rootDir == null) {
-            return defaultResourcesDir.orElseThrow(() -> new IllegalStateException(
-                    "Default resource folder not found, please provide graphqlSchemas.rootDir"));
+            return defaultResourcesDir;
         }
         return Paths.get(rootDir);
     }
@@ -1070,11 +1069,13 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         this.skip = skip;
     }
 
-    public java.util.Optional<Path> getDefaultResourcesDir() {
+    @Input
+    @Optional
+    public Path getDefaultResourcesDir() {
         return defaultResourcesDir;
     }
 
-    public void setDefaultResourcesDir(java.util.Optional<Path> defaultResourcesDir) {
+    public void setDefaultResourcesDir(Path defaultResourcesDir) {
         this.defaultResourcesDir = defaultResourcesDir;
     }
 }

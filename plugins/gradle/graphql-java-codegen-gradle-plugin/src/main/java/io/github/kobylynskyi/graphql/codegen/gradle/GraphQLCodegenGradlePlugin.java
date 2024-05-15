@@ -8,7 +8,6 @@ import org.gradle.api.tasks.TaskContainer;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Optional;
 
 /**
  * Gradle plugin for GraphQL code generation
@@ -26,7 +25,7 @@ public class GraphQLCodegenGradlePlugin implements Plugin<Project> {
         tasks.create("graphqlCodegenValidate", GraphQLCodegenValidateGradleTask.class);
     }
 
-    private Optional<Path> findDefaultResourcesDir(Project project) {
+    private Path findDefaultResourcesDir(Project project) {
         return project.getExtensions()
                 .getByType(JavaPluginExtension.class)
                 .getSourceSets()
@@ -36,7 +35,8 @@ public class GraphQLCodegenGradlePlugin implements Plugin<Project> {
                 .getFiles()
                 .stream()
                 .findFirst()
-                .map(File::toPath);
+                .map(File::toPath)
+                .orElseThrow(() -> new IllegalStateException("Default resource folder not found"));
     }
 
 }
